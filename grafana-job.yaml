@@ -36,11 +36,12 @@ spec:
             done ;
             for file in *-dashboard.json ; do
               if [ -e "$file" ] ; then
+                # wrap exported Grafana dashboard into valid json
                 echo "importing $file" &&
-                curl --silent --fail --show-error \
+                (echo '{"dashboard":';cat "$file";echo ',"inputs":[{"name":"DS_PROMETHEUS","pluginId":"prometheus","type":"datasource","value":"prometheus"}]}') | curl --silent --fail --show-error \
                   --request POST http://grafana:3000/api/dashboards/import \
                   --header "Content-Type: application/json" \
-                  --data-binary "@$file" ;
+                  --data-binary @-;
                 echo "" ;
               fi
             done

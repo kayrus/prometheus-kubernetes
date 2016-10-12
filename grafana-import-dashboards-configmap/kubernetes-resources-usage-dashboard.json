@@ -2367,8 +2367,8 @@
     }
   ],
   "time": {
-    "from": "2016-10-06T14:38:50.199Z",
-    "to": "2016-10-06T14:39:16.789Z"
+    "from": "now-15m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2415,9 +2415,8 @@
   "annotations": {
     "list": []
   },
-  "refresh": false,
   "schemaVersion": 12,
-  "version": 19,
+  "version": 21,
   "links": [],
   "gnetId": 315
 }

@@ -20,7 +20,7 @@ kubectl ${CONTEXT} --namespace="${NAMESPACE}" create configmap external-url --fr
 
 print_green "Set ${EXTERNAL_URL} as an external url"
 
-for yaml in `ls -L *.yaml`; do
+for yaml in *.yaml; do
   kubectl ${CONTEXT} --namespace="${NAMESPACE}" create -f "${yaml}"
 done
 
