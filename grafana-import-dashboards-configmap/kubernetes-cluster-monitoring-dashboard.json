@@ -268,7 +268,7 @@
           },
           "targets": [
             {
-              "expr": "(sum(node_filesystem_size{device=\"/dev/mapper/vglocal20160809-root00\"}) - sum(node_filesystem_free{device=\"/dev/mapper/vglocal20160809-root00\"}) ) / sum(node_filesystem_size{device=\"/dev/mapper/vglocal20160809-root00\"}) * 100",
+              "expr": "(sum(node_filesystem_size{mountpoint=\"/root-disk\"}) - sum(node_filesystem_free{mountpoint=\"/root-disk\"}) ) / sum(node_filesystem_size{mountpoint=\"/root-disk\"}) * 100",
               "interval": "10s",
               "intervalFactor": 1,
               "metric": "",
@@ -348,7 +348,7 @@
           },
           "targets": [
             {
-              "expr": "(sum(node_filesystem_size{device=\"/dev/mapper/vgpool-localdata\"}) - sum(node_filesystem_free{device=\"/dev/mapper/vgpool-localdata\"}) ) / sum(node_filesystem_size{device=\"/dev/mapper/vgpool-localdata\"}) * 100",
+              "expr": "(sum(node_filesystem_size{mountpoint=\"/data-disk\"}) - sum(node_filesystem_free{mountpoint=\"/data-disk\"}) ) / sum(node_filesystem_size{mountpoint=\"/data-disk\"}) * 100",
               "interval": "10s",
               "intervalFactor": 1,
               "metric": "",
