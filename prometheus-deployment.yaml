@@ -1,0 +1,56 @@
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: quay.io/coreos/prometheus:latest
+        args:
+          - '-storage.local.retention=6h'
+          - '-storage.local.memory-chunks=500000'
+          - '-config.file=/etc/prometheus/prometheus.yml'
+          - '-alertmanager.url=http://alertmanager:9093/alertmanager'
+          - '-web.external-url=$(EXTERNAL_URL)'
+        ports:
+        - name: web
+          containerPort: 9090
+        env:
+        - name: EXTERNAL_URL
+          valueFrom:
+            configMapKeyRef:
+              name: external-url
+              key: url
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus
+        - name: rules-volume
+          mountPath: /etc/prometheus-rules
+        - name: etcd-tls-client-certs
+          mountPath: /etc/etcd/ssl
+          readOnly: true
+        - name: prometheus-data
+          mountPath: /prometheus
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-configmap
+      - name: rules-volume
+        configMap:
+          name: prometheus-rules
+      - name: etcd-tls-client-certs
+        secret:
+          secretName: etcd-tls-client-certs
+      - name: prometheus-data
+        emptyDir: {}
