@@ -21,9 +21,9 @@ for instance in ${INSTANCES[@]}; do
   kubectl ${CONTEXT} --namespace="${NAMESPACE}" delete "${instance}"
 done
 
-PODS=$(kubectl ${CONTEXT} --namespace="${NAMESPACE}" get pods -o name | awk '/^pods\/(alertmanager|grafana|prometheus-deployment|node-exporter)-/ {print $1}' | tr '\n' ' ')
+PODS=$(kubectl ${CONTEXT} --namespace="${NAMESPACE}" get pods -o name | awk '/^pod\/(alertmanager|grafana|prometheus-deployment|node-exporter)-/ {print $1}' | tr '\n' ' ')
 while [ ! "${PODS}" = "" ]; do
   echo "Waiting 1 second for ${PODS}pods to shutdown..."
   sleep 1
-  PODS=$(kubectl ${CONTEXT} --namespace="${NAMESPACE}" get pods -o name | awk '/^pods\/(alertmanager|grafana|prometheus-deployment|node-exporter)-/ {print $1}' | tr '\n' ' ')
+  PODS=$(kubectl ${CONTEXT} --namespace="${NAMESPACE}" get pods -o name | awk '/^pod\/(alertmanager|grafana|prometheus-deployment|node-exporter)-/ {print $1}' | tr '\n' ' ')
 done
