@@ -317,7 +317,7 @@
           },
           "height": "20",
           "id": 8,
-          "interval": "1m",
+          "interval": null,
           "isNew": true,
           "links": [],
           "mappingType": 1,
@@ -759,7 +759,7 @@
   "annotations": {
     "list": []
   },
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 12,
   "version": 1,
   "links": [],

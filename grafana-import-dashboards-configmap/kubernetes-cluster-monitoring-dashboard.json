@@ -152,7 +152,7 @@
             "thresholdMarkers": true
           },
           "id": 6,
-          "interval": "1m",
+          "interval": null,
           "isNew": true,
           "links": [],
           "mappingType": 1,
@@ -688,7 +688,7 @@
   "annotations": {
     "list": []
   },
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 12,
   "version": 8,
   "links": [],

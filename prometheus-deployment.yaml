@@ -1,10 +1,14 @@
-
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: prometheus-deployment
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: prometheus
@@ -18,8 +22,8 @@ spec:
       - name: prometheus
         image: quay.io/coreos/prometheus:latest
         args:
-          - '-storage.local.retention=6h'
-          - '-storage.local.memory-chunks=500000'
+          - '-storage.local.retention=$(STORAGE_RETENTION)'
+          - '-storage.local.memory-chunks=$(STORAGE_MEMORY_CHUNKS)'
           - '-config.file=/etc/prometheus/prometheus.yml'
           - '-alertmanager.url=http://alertmanager:9093/alertmanager'
           - '-web.external-url=$(EXTERNAL_URL)'
@@ -32,6 +36,16 @@ spec:
             configMapKeyRef:
               name: external-url
               key: url
+        - name: STORAGE_RETENTION
+          valueFrom:
+            configMapKeyRef:
+              name: prometheus-env
+              key: storage-retention
+        - name: STORAGE_MEMORY_CHUNKS
+          valueFrom:
+            configMapKeyRef:
+              name: prometheus-env
+              key: storage-memory-chunks
         volumeMounts:
         - name: config-volume
           mountPath: /etc/prometheus
@@ -52,5 +66,16 @@ spec:
       - name: etcd-tls-client-certs
         secret:
           secretName: etcd-tls-client-certs
-      - name: prometheus-data
-        emptyDir: {}
+        #hostPath:
+        #  path: /etc/ssl/etcd/
+      #- name: prometheus-data
+      #  rbd:
+      #    fsType: ext4
+      #    image: prometheus-data
+      #    keyring: /etc/ceph/keyring
+      #    monitors:
+      #    - ceph-mon.ceph.svc.cluster.local
+      #    pool: rbd
+      #    secretRef:
+      #      name: ceph-secret
+      #    user: admin
