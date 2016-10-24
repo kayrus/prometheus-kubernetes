@@ -618,7 +618,7 @@
           },
           "height": "180px",
           "id": 4,
-          "interval": null,
+          "interval": "1m",
           "isNew": true,
           "links": [],
           "mappingType": 1,

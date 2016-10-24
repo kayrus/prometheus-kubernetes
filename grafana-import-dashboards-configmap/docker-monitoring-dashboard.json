@@ -317,7 +317,7 @@
           },
           "height": "20",
           "id": 8,
-          "interval": null,
+          "interval": "1m",
           "isNew": true,
           "links": [],
           "mappingType": 1,

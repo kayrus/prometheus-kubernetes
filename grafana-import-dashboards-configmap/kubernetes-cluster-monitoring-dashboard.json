@@ -152,7 +152,7 @@
             "thresholdMarkers": true
           },
           "id": 6,
-          "interval": null,
+          "interval": "1m",
           "isNew": true,
           "links": [],
           "mappingType": 1,
