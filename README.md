@@ -6,7 +6,7 @@
 
 ## Namespace
 
-This example uses `monitoring` namespace.
+This example uses `monitoring` namespace. If you wish to use your own namespace, just export `NAMESPACE=mynamespace` environment variable.
 
 ## Upload etcd TLS keypair
 
@@ -14,6 +14,12 @@ In case when you use TLS keypair and TLS auth for your etcd cluster, please put 
 
 ```sh
 kubectl --namespace=monitoring create secret generic --from-file=ca.pem=/path/to/ca.pem --from-file=client.pem=/path/to/client.pem --from-file=client-key.pem=/path/to/client-key.pem etcd-tls-client-certs
+```
+
+otherwise create a dummy secret:
+
+```sh
+kubectl --namespace=monitoring create secret generic --from-literal=ca.pem=123 --from-literal=client.pem=123 --from-literal=client-key.pem=123 etcd-tls-client-certs
 ```
 
 ## Upload Ingress controller server TLS keypairs
@@ -57,20 +63,6 @@ This repo uses `emptyDir` data storage which means that every pod restart will c
 
 Initial Grafana dashboards were taken from this [repo](https://github.com/giantswarm/kubernetes-prometheus) and adjusted.
 
-# Rebuild configmaps manifests
-
-You have to rebuild manifests in case when you modify one of these directories:
-
-* [`alertmanager-templates`](alertmanager-templates)
-* [`grafana-import-dashboards-configmap`](grafana-import-dashboards-configmap)
-* [`prometheus-rules`](prometheus-rules)
-
-Command to rebuild the configmaps manifests:
-
-```sh
-./rebuild-configmaps.sh
-```
-
 # Ingress controller
 
 Example of an ingress controller to get an access from outside:
@@ -113,6 +105,8 @@ spec:
           servicePort: 3000
 ```
 
+If you still don't have Ingress controller installed, you can use manifests from the [`test_ingress`](test_ingress) directory for test purposes.
+
 # Alerting
 
 ## Included alert rules
@@ -145,7 +139,7 @@ If deployment manifest was changed, all Prometheus pods will be restarted with [
 
 ### Update configfile
 
-Update [`prometheus-configmap.yaml`](prometheus-configmap.yaml) or [`prometheus-rules`](prometheus-rules) directory contents (in this case don't forget to run `./rebuild-configmaps.sh`) and apply them:
+Update [`prometheus-configmap.yaml`](prometheus-configmap.yaml) or [`prometheus-rules`](prometheus-rules) directory contents and apply them:
 
 ```sh
 ./update_prometheus_config.sh
@@ -176,7 +170,7 @@ If deployment manifest was changed, all Alertmanager pods will be restarted with
 
 ### Update configfile
 
-Update [`alertmanager-configmap.yaml`](alertmanager-configmap.yaml) or [`alertmanager-templates`](alertmanager-templates) directory contents (in this case don't forget to run `./rebuild-configmaps.sh`) and apply them:
+Update [`alertmanager-configmap.yaml`](alertmanager-configmap.yaml) or [`alertmanager-templates`](alertmanager-templates) directory contents and apply them:
 
 ```sh
 ./update_alertmanager_config.sh

@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-monitoring
+  namespace: monitoring
+spec:
+  tls:
+  - hosts:
+    - prometheus.example.com
+    - grafana.example.com
+  rules:
+  - host: prometheus.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-svc
+          servicePort: 9090
+      - path: /alertmanager
+        backend:
+          serviceName: alertmanager
+          servicePort: 9093
+  - host: grafana.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grafana
+          servicePort: 3000

@@ -43,7 +43,7 @@ data:
         key_file: /etc/etcd/ssl/client-key.pem
       kubernetes_sd_configs:
       - api_servers:
-        - https://kubernetes.default.svc.cluster.local
+        - https://kubernetes.default
         in_cluster: true
         role: node
       relabel_configs:
@@ -75,7 +75,7 @@ data:
     
       kubernetes_sd_configs:
       - api_servers:
-        - https://kubernetes.default.svc.cluster.local
+        - https://kubernetes.default
         in_cluster: true
         role: apiserver
 
@@ -102,7 +102,7 @@ data:
     
       kubernetes_sd_configs:
       - api_servers:
-        - https://kubernetes.default.svc.cluster.local
+        - https://kubernetes.default
         in_cluster: true
         role: node
     
@@ -122,7 +122,7 @@ data:
       bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
       kubernetes_sd_configs:
       - api_servers:
-        - https://kubernetes.default.svc.cluster.local
+        - https://kubernetes.default
         in_cluster: true
         role: node
 
@@ -159,7 +159,7 @@ data:
     
       kubernetes_sd_configs:
       - api_servers:
-        - 'https://kubernetes.default.svc.cluster.local'
+        - 'https://kubernetes.default'
         in_cluster: true
         role: endpoint
     
@@ -203,7 +203,7 @@ data:
     
       kubernetes_sd_configs:
       - api_servers:
-        - 'https://kubernetes.default.svc.cluster.local'
+        - 'https://kubernetes.default'
         in_cluster: true
         role: service
     
@@ -236,7 +236,7 @@ data:
     
       kubernetes_sd_configs:
       - api_servers:
-        - 'https://kubernetes.default.svc.cluster.local'
+        - 'https://kubernetes.default'
         in_cluster: true
         role: pod
     
