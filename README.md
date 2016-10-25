@@ -105,7 +105,7 @@ spec:
           servicePort: 3000
 ```
 
-If you still don't have Ingress controller installed, you can use manifests from the [`test_ingress`](test_ingress) directory for test purposes.
+If you still don't have an Ingress controller installed, you can use manifests from the [`test_ingress`](test_ingress) directory for test purposes.
 
 # Alerting
 

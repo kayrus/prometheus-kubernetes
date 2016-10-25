@@ -7,7 +7,6 @@ metadata:
     ingress.kubernetes.io/auth-type: basic
     kubernetes.io/ingress.allow-http: "false"
   name: ingress-monitoring
-  namespace: monitoring
 spec:
   tls:
   - hosts:
