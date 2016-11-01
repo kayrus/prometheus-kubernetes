@@ -42,6 +42,46 @@ spec:
           volumeMounts:
           - name: grafana-persistent-storage
             mountPath: /var
+        - name: grafana-import-dashboards
+          image: docker
+          command: ["/bin/sh", "-c"]
+          workingDir: /opt/grafana-import-dashboards
+          args:
+            # FIXME use kubernetes probe instead of "until curl"
+            - >
+              until $(curl --silent --fail --show-error --output /dev/null http://localhost:3000/api/datasources); do
+                printf '.' ; sleep 1 ;
+              done ;
+              for file in *-datasource.json ; do
+                if [ -e "$file" ] ; then
+                  echo "importing $file" &&
+                  curl --silent --fail --show-error \
+                    --request POST http://localhost:3000/api/datasources \
+                    --header "Content-Type: application/json" \
+                    --data-binary "@$file" ;
+                  echo "" ;
+                fi
+              done ;
+              for file in *-dashboard.json ; do
+                if [ -e "$file" ] ; then
+                  # wrap exported Grafana dashboard into valid json
+                  echo "importing $file" &&
+                  (echo '{"dashboard":';cat "$file";echo ',"inputs":[{"name":"DS_PROMETHEUS","pluginId":"prometheus","type":"datasource","value":"prometheus"}]}') | curl --silent --fail --show-error \
+                    --request POST http://localhost:3000/api/dashboards/import \
+                    --header "Content-Type: application/json" \
+                    --data-binary @-;
+                  echo "" ;
+                fi
+              done ;
+              while true; do
+                sleep 1m ;
+              done
+          volumeMounts:
+          - name: config-volume
+            mountPath: /opt/grafana-import-dashboards
       volumes:
+      - name: config-volume
+        configMap:
+          name: grafana-import-dashboards
       - name: grafana-persistent-storage
         emptyDir: {}

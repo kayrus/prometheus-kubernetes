@@ -116,6 +116,22 @@ data:
         replacement: '${1}:10255'
         target_label: __address__
 
+      # Backward compatibility for Kubernetes 1.3 dashboards
+      metric_relabel_configs:
+      - source_labels: [io_kubernetes_container_name,container_name]
+        action: replace
+        regex: (.*);(.*)
+        replacement: '${1}${2}'
+        target_label: io_kubernetes_container_name
+      - source_labels: [kubernetes_pod_name,pod_name]
+        action: replace
+        regex: (.*);(.*)
+        replacement: '${1}${2}'
+        target_label: kubernetes_pod_name
+      - source_labels: [kubernetes_pod_name]
+        action: replace
+        target_label: io_kubernetes_pod_name
+
     - job_name: 'kubernetes-node-exporter'
       tls_config:
         ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
