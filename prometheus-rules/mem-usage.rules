@@ -1,12 +1,12 @@
 ALERT NodeSwapUsage
-  IF (((node_memory_SwapTotal-node_memory_SwapFree)/node_memory_SwapTotal)*100) > 10
+  IF (((node_memory_SwapTotal-node_memory_SwapFree)/node_memory_SwapTotal)*100) > 75
   FOR 2m
   LABELS {
     severity="page"
   }
   ANNOTATIONS {
     SUMMARY = "{{$labels.instance}}: Swap usage detected",
-    DESCRIPTION = "{{$labels.instance}}: Swap usage usage is above 10% (current value is: {{ $value }})"
+    DESCRIPTION = "{{$labels.instance}}: Swap usage usage is above 75% (current value is: {{ $value }})"
   }
 
 ALERT NodeMemoryUsage
