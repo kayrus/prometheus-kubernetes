@@ -68,6 +68,8 @@ spec:
           secretName: etcd-tls-client-certs
         #hostPath:
         #  path: /etc/ssl/etcd/
+      - name: prometheus-data
+        emptyDir: {}
       #- name: prometheus-data
       #  rbd:
       #    fsType: ext4
