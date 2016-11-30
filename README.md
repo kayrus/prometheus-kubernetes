@@ -120,6 +120,8 @@ Prometheus alert rules which are already included in this repo:
 * NodeLowDataDisk > 80% (relates to `/data-disk` mount point inside `node-exporter` pod)
 * NodeSwapUsage > 10%
 * NodeMemoryUsage > 75%
+* ESLogsStatus (alerts when Elasticsearch cluster status goes yellow or red)
+* NodeLoadAverage (alerts when node's load average divided by amount of CPUs exceeds 1)
 
 ## Notifications
 
