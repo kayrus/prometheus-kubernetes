@@ -1,3 +1,5 @@
+See also [Elasticsearch+Kibana Kubernetes complete example](https://github.com/kayrus/elk-kubernetes)
+
 # Prerequisites
 
 ## Kubectl
