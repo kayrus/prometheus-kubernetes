@@ -1,0 +1,10 @@
+ALERT ESLogsStatus
+  IF absent(es_cluster_status{cluster="es-logs"}) OR avg(es_cluster_status{cluster="es-logs"}) != 0
+  FOR 2m
+  LABELS {
+    severity="page"
+  }
+  ANNOTATIONS {
+    SUMMARY = "{{$labels.instance}}: \"es-logs\" Elasticsearch cluster status is not green",
+    DESCRIPTION = "{{$labels.instance}}: \"es-logs\" Elasticsearch cluster status is not green (or 0), current value is: {{ $value }}"
+  }

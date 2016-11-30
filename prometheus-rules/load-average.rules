@@ -1,0 +1,10 @@
+ALERT NodeLoadAverage
+  IF ((node_load5 / count without (cpu, mode) (node_cpu{mode="system"})) > 1)
+  FOR 2m
+  LABELS {
+    severity="page"
+  }
+  ANNOTATIONS {
+    SUMMARY = "{{$labels.instance}}: High LA detected",
+    DESCRIPTION = "{{$labels.instance}}: LA is high"
+  }
