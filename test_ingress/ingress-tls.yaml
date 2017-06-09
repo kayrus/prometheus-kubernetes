@@ -21,10 +21,6 @@ spec:
         backend:
           serviceName: prometheus-svc
           servicePort: 9090
-      - path: /alertmanager
-        backend:
-          serviceName: alertmanager
-          servicePort: 9093
   - host: grafana.example.com
     http:
       paths:
@@ -32,3 +28,23 @@ spec:
         backend:
           serviceName: grafana
           servicePort: 3000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: ingress-monitoring-alertmanager
+spec:
+  tls:
+  - hosts:
+    - prometheus.example.com
+    secretName: example-tls
+  rules:
+  - host: prometheus.example.com
+    http:
+      paths:
+      - path: /alertmanager
+        backend:
+          serviceName: alertmanager
+          servicePort: 9093
